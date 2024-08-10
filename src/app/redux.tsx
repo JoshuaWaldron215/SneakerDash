@@ -6,7 +6,10 @@ import {
   useSelector,
   Provider,
 } from "react-redux";
-import globalReducer from "@/app/state"
+import globalReducer from "@/app/state";
+import userReducer from '@/app/state/userSlice'; // Import userSlice
+
+import inventoryReducer from "@/app/state/inventorySlice"; // Import your inventory slice
 import { api } from "@/app/state/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
@@ -46,12 +49,16 @@ const storage =
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["global"],
+  whitelist: ["global", "inventory"], // Add 'inventory' to the whitelist if you want to persist it
 };
+
 const rootReducer = combineReducers({
   global: globalReducer,
+user: userReducer, // Add userReducer to the store
+  inventory: inventoryReducer, // Combine inventory reducer here
   [api.reducerPath]: api.reducer,
 });
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 /* REDUX STORE */
