@@ -115,19 +115,19 @@ const Sidebar = () => {
           label="Inventory"
           isCollapsed={isSidebarCollapsed}
         />
-        <SidebarLink
-          href="/Financials"
-          icon={DollarSign}
-          label="Financials"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
+
+<SidebarLink
           href="/Sales Analytics"
           icon={BarChart}
           label="Sales Analytics "
           isCollapsed={isSidebarCollapsed}
         />
-        
+        <SidebarLink
+          href="/Financials"
+          icon={DollarSign}
+          label="Financials"
+          isCollapsed={isSidebarCollapsed}
+        />   
         <SidebarLink
           href="/expenses"
           icon={MinusCircle}
