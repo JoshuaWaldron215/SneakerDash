@@ -6,6 +6,7 @@ import {
   Archive,
   BarChart,
   CalculatorIcon,
+  Clipboard,
   DollarSign,
   Layout,
   Menu,
@@ -111,7 +112,12 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
 
-         
+        <SidebarLink
+          href="/saleshistory"
+          icon={Clipboard}
+          label="Sales History"
+          isCollapsed={isSidebarCollapsed}
+        />
         <SidebarLink
           href="/expenses"
           icon={MinusCircle}
@@ -124,12 +130,7 @@ const Sidebar = () => {
           label="Calculator"
           isCollapsed={isSidebarCollapsed}
         />  
-        <SidebarLink
-          href="/settings"
-          icon={SlidersHorizontal}
-          label="Settings"
-          isCollapsed={isSidebarCollapsed}
-        />
+        
 
       </div>
 
