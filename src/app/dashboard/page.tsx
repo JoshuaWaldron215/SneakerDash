@@ -4,6 +4,7 @@ import React from 'react';
 import { useAppSelector } from '@/app/redux';
 import { Shoe } from '@/app/state/inventorySlice';
 import RevenueProfitChart from '@/app/(components)/RevenueProfitChart';
+import ExpensesOverview from '@/app/(components)/ExpensesOverview';
 
 const Dashboard = () => {
   const inventory = useAppSelector((state) => state.inventory.shoes);
@@ -34,11 +35,19 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Revenue and Profit Chart Section */}
-      <div className="bg-white shadow-md rounded-lg p-6" style={{ height: '600px', width: '600px' }}>
-        <h3 className="text-xl font-semibold mb-4">Revenue and Profit</h3>
-        <div className="w-full h-full">
-          <RevenueProfitChart />
+      {/* Revenue and Expenses Section */}
+      <div className="flex space-x-6">
+        {/* Revenue and Profit Chart Section */}
+        <div className="bg-white shadow-md rounded-lg p-6" style={{ height: '500px', width: '70%' }}>
+          <h3 className="text-xl font-semibold mb-4">Revenue and Profit Overview</h3>
+          <div className="w-full h-full">
+            <RevenueProfitChart />
+          </div>
+        </div>
+
+        {/* Expenses Overview Section */}
+        <div className="bg-white shadow-md rounded-lg p-6" style={{ height: '300px', width: '30%' }}>
+          <ExpensesOverview />
         </div>
       </div>
     </div>
@@ -46,4 +55,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

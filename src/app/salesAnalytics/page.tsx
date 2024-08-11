@@ -152,14 +152,14 @@ const SalesAnalytics = () => {
             Average Profit per Shoe: ${metrics.averageProfitPerShoe.toFixed(2)}
           </p>
           <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            ROI: {metrics.roi.toFixed(2)}%
+            Average ROI: {metrics.roi.toFixed(2)}%
           </p>
         </div>
 
         {/* Chart Section */}
         <div className="flex-1 h-[600px] p-4 rounded-lg shadow-lg bg-white">
           <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-gray-800' : 'text-gray-900'}`}>
-            Revenue and Profit by Month
+            Revenue and Profit Overview
           </h3>
           <Bar
             data={chartData}
