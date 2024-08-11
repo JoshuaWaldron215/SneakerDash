@@ -5,24 +5,20 @@ import { setIsSidebarCollapsed } from "@/app/state";
 import {
   Archive,
   BarChart,
-  CircleDollarSign,
-  Clipboard,
+  CalculatorIcon,
   DollarSign,
   Layout,
-  LucideIcon,
   Menu,
   MinusCircle,
   SlidersHorizontal,
-  User,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 interface SidebarLinkProps {
   href: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<any>;
   label: string;
   isCollapsed: boolean;
 }
@@ -42,19 +38,12 @@ const SidebarLink = ({
       <div
         className={`cursor-pointer flex items-center ${
           isCollapsed ? "justify-center py-4" : "justify-start px-8 py-4"
-        }
-        hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${
+        } hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${
           isActive ? "bg-blue-200 text-white" : ""
-        }
-      }`}
+        }`}
       >
         <Icon className="w-6 h-6 !text-gray-700" />
-
-        <span
-          className={`${
-            isCollapsed ? "hidden" : "block"
-          } font-medium text-gray-700`}
-        >
+        <span className={`${isCollapsed ? "hidden" : "block"} font-medium text-gray-700`}>
           {label}
         </span>
       </div>
@@ -84,7 +73,6 @@ const Sidebar = () => {
           isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
-        
         <h1
           className={`${
             isSidebarCollapsed ? "hidden" : "block"
@@ -116,18 +104,14 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
 
-<SidebarLink
-          href="/Sales Analytics"
+        <SidebarLink
+          href="/salesAnalytics"
           icon={BarChart}
-          label="Sales Analytics "
+          label="Sales Analytics"
           isCollapsed={isSidebarCollapsed}
         />
-        <SidebarLink
-          href="/Financials"
-          icon={DollarSign}
-          label="Financials"
-          isCollapsed={isSidebarCollapsed}
-        />   
+
+         
         <SidebarLink
           href="/expenses"
           icon={MinusCircle}
@@ -135,11 +119,17 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
+          href="/Calculator"
+          icon={CalculatorIcon}
+          label="Calculator"
+          isCollapsed={isSidebarCollapsed}
+        />  
+        <SidebarLink
           href="/settings"
           icon={SlidersHorizontal}
           label="Settings"
           isCollapsed={isSidebarCollapsed}
-          />
+        />
 
       </div>
 

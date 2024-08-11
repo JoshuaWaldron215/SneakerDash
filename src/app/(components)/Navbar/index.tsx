@@ -2,8 +2,9 @@
 
 import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { setIsDarkMode, setIsSidebarCollapsed } from '@/app/state';
-import { Bell, Link, Menu, Moon, Search, Sun, Settings } from 'lucide-react';
+import { Bell, Menu, Moon, Search, Sun, Settings } from 'lucide-react';
 import React from 'react';
+import Link from 'next/link';
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ const Navbar = () => {
       {/* LEFT SIDE */}
       <div className="flex justify-between items-center gap-5">
         <button
-          className="px-3 py-3 bg-gray-100 round-full hover:bg-blue-100"
+          className="px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
           onClick={toggleSidebar}
         >
           <Menu className="w-4 h-4" />
