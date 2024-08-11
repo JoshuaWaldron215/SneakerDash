@@ -11,6 +11,7 @@ import {
   Layout,
   Menu,
   MinusCircle,
+  Settings,
   SlidersHorizontal,
 } from "lucide-react";
 import Link from "next/link";
@@ -113,12 +114,6 @@ const Sidebar = () => {
         />
 
         <SidebarLink
-          href="/saleshistory"
-          icon={Clipboard}
-          label="Sales History"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
           href="/expenses"
           icon={MinusCircle}
           label="Expenses"
@@ -130,6 +125,12 @@ const Sidebar = () => {
           label="Calculator"
           isCollapsed={isSidebarCollapsed}
         />  
+        <SidebarLink
+          href="/setting"
+          icon={Settings}
+          label="Settings"
+          isCollapsed={isSidebarCollapsed}
+        /> 
         
 
       </div>

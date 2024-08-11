@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useAppSelector } from '@/app/redux';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -17,18 +17,41 @@ import 'chartjs-adapter-date-fns';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, TimeScale);
 
-interface MonthlyData {
-  revenue: number;
-  profit: number;
-}
-
 const SalesAnalytics = () => {
   const inventory = useAppSelector((state) => state.inventory.shoes);
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
-  // Calculations for overall metrics
+  // Get a list of months available in the data
+  const availableMonths = useMemo(() => {
+    const months = new Set<string>();
+    inventory.forEach((shoe) => {
+      if (shoe.dateSold && shoe.priceSold) {
+        const date = new Date(shoe.dateSold);
+        const month = `${date.getFullYear()}-${date.getMonth() + 1}`;
+        months.add(month);
+      }
+    });
+    return Array.from(months).sort();
+  }, [inventory]);
+
+  // Filter data based on selected month
+  const filteredInventory = useMemo(() => {
+    if (!selectedMonth) return inventory;
+    return inventory.filter((shoe) => {
+      if (shoe.dateSold && shoe.priceSold) {
+        const date = new Date(shoe.dateSold);
+        const month = `${date.getFullYear()}-${date.getMonth() + 1}`;
+        return month === selectedMonth;
+      }
+      return false;
+    });
+  }, [selectedMonth, inventory]);
+
+  // Calculations for metrics based on filtered data
   const metrics = useMemo(() => {
-    const soldShoes = inventory.filter((shoe) => shoe.dateSold && shoe.priceSold);
+    const soldShoes = filteredInventory.filter((shoe) => shoe.dateSold && shoe.priceSold);
     const totalSales = soldShoes.reduce((acc, shoe) => acc + (shoe.priceSold || 0), 0);
     const totalProfit = soldShoes.reduce((acc, shoe) => acc + ((shoe.priceSold || 0) - shoe.purchasePrice), 0);
     const totalCost = soldShoes.reduce((acc, shoe) => acc + shoe.purchasePrice, 0);
@@ -41,15 +64,15 @@ const SalesAnalytics = () => {
       totalProfit,
       totalCost,
       roi,
-      averageProfitPerShoe, // New metric for average profit per shoe
+      averageProfitPerShoe,
     };
-  }, [inventory]);
+  }, [filteredInventory]);
 
-  // Group sales by month
+  // Prepare chart data based on filtered data
   const chartData = useMemo(() => {
-    const monthlyData: Record<string, MonthlyData> = {};
+    const monthlyData: Record<string, { revenue: number; profit: number }> = {};
 
-    inventory.forEach((shoe) => {
+    filteredInventory.forEach((shoe) => {
       if (shoe.dateSold && shoe.priceSold) {
         const date = new Date(shoe.dateSold);
         const month = `${date.getFullYear()}-${date.getMonth() + 1}`;
@@ -86,11 +109,29 @@ const SalesAnalytics = () => {
         },
       ],
     };
-  }, [inventory]);
+  }, [filteredInventory]);
 
   return (
     <div className={`max-w-6xl mx-auto p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md rounded-lg`}>
       <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Sales Analytics</h2>
+
+      {/* Month Selector */}
+<div className="mb-4">
+  <label className={`mr-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Select Month:</label>
+  <select
+    value={selectedMonth || ''}
+    onChange={(e) => setSelectedMonth(e.target.value || null)}
+    className={`p-2 border rounded ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-gray-900 border-gray-300'}`}
+  >
+    <option value="">All</option>
+    {availableMonths.map((month) => (
+      <option key={month} value={month}>
+        {month}
+      </option>
+    ))}
+  </select>
+</div>
+
 
       <div className="flex flex-col lg:flex-row justify-between gap-8">
         {/* Metrics Section */}
@@ -108,7 +149,7 @@ const SalesAnalytics = () => {
             Total Cost: ${metrics.totalCost.toFixed(2)}
           </p>
           <p className={`text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Average Profit per Shoe: ${metrics.averageProfitPerShoe.toFixed(2)} {/* Display Average Profit per Shoe */}
+            Average Profit per Shoe: ${metrics.averageProfitPerShoe.toFixed(2)}
           </p>
           <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
             ROI: {metrics.roi.toFixed(2)}%
