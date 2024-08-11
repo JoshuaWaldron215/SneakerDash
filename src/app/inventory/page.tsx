@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { Shoe, addShoe, deleteShoe } from '@/app/state/inventorySlice';
 
@@ -36,6 +36,21 @@ const Inventory = () => {
     setDateSold('');  // Clear Date Sold
     setPriceSold('');  // Clear Price Sold
   };
+
+  // Grouping inventory items by month and year
+  const groupedInventory = useMemo(() => {
+    return inventory.reduce((groups, shoe) => {
+      const date = new Date(shoe.dateBought);
+      const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+      if (!groups[monthYear]) {
+        groups[monthYear] = [];
+      }
+
+      groups[monthYear].push(shoe);
+      return groups;
+    }, {} as Record<string, Shoe[]>);
+  }, [inventory]);
 
   return (
     <div className={`max-w-4xl mx-auto p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md rounded-lg`}>
@@ -108,30 +123,42 @@ const Inventory = () => {
 
       <div className="mt-8">
         <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Your Inventory</h3>
-        <ul className="space-y-2">
-          {inventory.map((shoe: Shoe, index: number) => (
-            <li
-              key={index}
-              className={`flex justify-between items-center p-4 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'}`}
-            >
-              <span>
-                {shoe.sku} - {shoe.shoeName} - Size: {shoe.size} - ${shoe.purchasePrice} - Bought on {shoe.dateBought}
-                {shoe.dateSold && shoe.priceSold ? (
-                  <> - Sold on {shoe.dateSold} for ${shoe.priceSold}</>
-                ) : null}
-              </span>
-              <button
-                onClick={() => dispatch(deleteShoe(index))}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        {Object.keys(groupedInventory).length > 0 ? (
+          Object.keys(groupedInventory).map((monthYear) => (
+            <div key={monthYear} className="mb-8">
+              <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                {monthYear}
+              </h3>
+              <ul className="space-y-2">
+                {groupedInventory[monthYear].map((shoe, index) => (
+                  <li
+                    key={index}
+                    className={`flex justify-between items-center p-4 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'}`}
+                  >
+                    <span>
+                      {shoe.sku} - {shoe.shoeName} - Size: {shoe.size} - ${shoe.purchasePrice} - Bought on {shoe.dateBought}
+                      {shoe.dateSold && shoe.priceSold ? (
+                        <> - Sold on {shoe.dateSold} for ${shoe.priceSold}</>
+                      ) : null}
+                    </span>
+                    <button
+                      onClick={() => dispatch(deleteShoe(index))}
+                      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    >
+                      Delete
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No inventory items found.</p>
+        )}
       </div>
     </div>
   );
 };
 
 export default Inventory;
+
