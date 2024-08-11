@@ -8,7 +8,10 @@ const Inventory = () => {
   const [sku, setSku] = useState('');
   const [dateBought, setDateBought] = useState('');
   const [shoeName, setShoeName] = useState('');
+  const [size, setSize] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
+  const [dateSold, setDateSold] = useState('');  // New state for Date Sold
+  const [priceSold, setPriceSold] = useState('');  // New state for Price Sold
 
   const dispatch = useAppDispatch();
   const inventory = useAppSelector((state) => state.inventory.shoes);
@@ -16,27 +19,35 @@ const Inventory = () => {
 
   const handleAddShoe = () => {
     dispatch(addShoe({ 
-        dateBought, sku, 
+      dateBought, 
+      sku, 
       shoeName, 
-      purchasePrice: Number(purchasePrice)  
+      size: Number(size),
+      purchasePrice: Number(purchasePrice),
+      dateSold, // Include Date Sold
+      priceSold: priceSold ? Number(priceSold) : undefined, // Include Price Sold
     }));
     // Clear form
     setDateBought('');
     setSku('');
     setShoeName('');
+    setSize('');
     setPurchasePrice('');
+    setDateSold('');  // Clear Date Sold
+    setPriceSold('');  // Clear Price Sold
   };
 
   return (
     <div className={`max-w-4xl mx-auto p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md rounded-lg`}>
       <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Inventory</h2>
       <div className="space-y-4">
-      <input
+        <input
           type="date"
           value={dateBought}
           onChange={(e) => setDateBought(e.target.value)}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
         />
+
         <input
           type="text"
           placeholder="SKU"
@@ -44,7 +55,7 @@ const Inventory = () => {
           onChange={(e) => setSku(e.target.value)}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
         />
-        
+
         <input
           type="text"
           placeholder="Shoe Name"
@@ -52,6 +63,15 @@ const Inventory = () => {
           onChange={(e) => setShoeName(e.target.value)}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
         />
+
+        <input
+          type="number"
+          placeholder="Size"
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
+        />
+
         <input
           type="number"
           placeholder="Purchase Price"
@@ -59,6 +79,25 @@ const Inventory = () => {
           onChange={(e) => setPurchasePrice(e.target.value)}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
         />
+
+        {/* New Date Sold Input */}
+        <input
+          type="date"
+          value={dateSold}
+          onChange={(e) => setDateSold(e.target.value)}
+          placeholder="Date Sold"
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
+        />
+
+        {/* New Price Sold Input */}
+        <input
+          type="number"
+          placeholder="Price Sold"
+          value={priceSold}
+          onChange={(e) => setPriceSold(e.target.value)}
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-blue-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500'}`}
+        />
+
         <button
           onClick={handleAddShoe}
           className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -76,7 +115,10 @@ const Inventory = () => {
               className={`flex justify-between items-center p-4 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'}`}
             >
               <span>
-                {shoe.sku} - {shoe.shoeName} - ${shoe.purchasePrice} - Bought on {shoe.dateBought}
+                {shoe.sku} - {shoe.shoeName} - Size: {shoe.size} - ${shoe.purchasePrice} - Bought on {shoe.dateBought}
+                {shoe.dateSold && shoe.priceSold ? (
+                  <> - Sold on {shoe.dateSold} for ${shoe.priceSold}</>
+                ) : null}
               </span>
               <button
                 onClick={() => dispatch(deleteShoe(index))}

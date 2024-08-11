@@ -5,6 +5,9 @@ export interface Shoe {
     dateBought: string;
     shoeName: string;
     purchasePrice: number;
+    size: number; 
+    dateSold?: string; // Optional field
+    priceSold?: number; // Optional field
   }
 
 interface InventoryState {
