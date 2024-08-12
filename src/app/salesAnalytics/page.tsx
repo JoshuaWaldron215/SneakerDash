@@ -112,77 +112,89 @@ const SalesAnalytics = () => {
   }, [filteredInventory]);
 
   return (
-    <div className={`max-w-6xl mx-auto p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md rounded-lg`}>
-      <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Sales Analytics</h2>
+    <div className={`max-w-7xl mx-auto p-6 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg rounded-lg`}>
+      <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Sales Analytics</h2>
 
       {/* Month Selector */}
-<div className="mb-4">
-  <label className={`mr-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Select Month:</label>
-  <select
-    value={selectedMonth || ''}
-    onChange={(e) => setSelectedMonth(e.target.value || null)}
-    className={`p-2 border rounded ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-gray-900 border-gray-300'}`}
-  >
-    <option value="">All</option>
-    {availableMonths.map((month) => (
-      <option key={month} value={month}>
-        {month}
-      </option>
-    ))}
-  </select>
-</div>
+      <div className="mb-6">
+        <label className={`mr-2 text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Select Month:</label>
+        <select
+          value={selectedMonth || ''}
+          onChange={(e) => setSelectedMonth(e.target.value || null)}
+          className={`p-2 border rounded-lg ${isDarkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}
+        >
+          <option value="">All</option>
+          {availableMonths.map((month) => (
+            <option key={month} value={month}>
+              {month}
+            </option>
+          ))}
+        </select>
+      </div>
 
-
-      <div className="flex flex-col lg:flex-row justify-between gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Metrics Section */}
-        <div className={`flex-1 p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-lg`}>
-          <p className={`text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Number of Shoes Sold: {metrics.numberOfShoesSold}
-          </p>
-          <p className={`text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Total Sales: ${metrics.totalSales.toFixed(2)}
-          </p>
-          <p className={`text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Total Profit: ${metrics.totalProfit.toFixed(2)}
-          </p>
-          <p className={`text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Total Cost: ${metrics.totalCost.toFixed(2)}
-          </p>
-          <p className={`text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Average Profit per Shoe: ${metrics.averageProfitPerShoe.toFixed(2)}
-          </p>
-          <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Average ROI: {metrics.roi.toFixed(2)}%
-          </p>
+        <div className="lg:col-span-1">
+          <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+            <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Key Metrics</h3>
+            <div className="space-y-3">
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-sm`}>
+                <p className="text-lg font-medium">Number of Shoes Sold</p>
+                <p className="text-2xl font-bold">{metrics.numberOfShoesSold}</p>
+              </div>
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-sm`}>
+                <p className="text-lg font-medium">Total Sales</p>
+                <p className="text-2xl font-bold">${metrics.totalSales.toFixed(2)}</p>
+              </div>
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-sm`}>
+                <p className="text-lg font-medium">Total Profit</p>
+                <p className="text-2xl font-bold">${metrics.totalProfit.toFixed(2)}</p>
+              </div>
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-sm`}>
+                <p className="text-lg font-medium">Total Cost</p>
+                <p className="text-2xl font-bold">${metrics.totalCost.toFixed(2)}</p>
+              </div>
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-sm`}>
+                <p className="text-lg font-medium">Average Profit per Shoe</p>
+                <p className="text-2xl font-bold">${metrics.averageProfitPerShoe.toFixed(2)}</p>
+              </div>
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-sm`}>
+                <p className="text-lg font-medium">Average ROI</p>
+                <p className="text-2xl font-bold">{metrics.roi.toFixed(2)}%</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Chart Section */}
-        <div className="flex-1 h-[600px] p-4 rounded-lg shadow-lg bg-white">
-          <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-gray-800' : 'text-gray-900'}`}>
-            Revenue and Profit Overview
-          </h3>
-          <Bar
-            data={chartData}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { position: 'top' },
-                title: { display: true, text: 'Revenue and Profit by Month' },
-              },
-              scales: {
-                x: {
-                  type: 'category',
+        <div className="lg:col-span-2">
+          <div className={`h-[600px] p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Revenue and Profit Overview
+            </h3>
+            <Bar
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { position: 'top' },
+                  title: { display: true, text: 'Revenue and Profit by Month' },
                 },
-                y: {
-                  beginAtZero: true,
-                  ticks: {
-                    stepSize: 100,
+                scales: {
+                  x: {
+                    type: 'category',
+                  },
+                  y: {
+                    beginAtZero: true,
+                    ticks: {
+                      stepSize: 100,
+                    },
                   },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
