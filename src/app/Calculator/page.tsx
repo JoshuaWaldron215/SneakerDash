@@ -39,7 +39,7 @@ const CalculatorPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl bg-white mx-auto shadow-lg rounded-lg p-6">
       <h2 className="text-2xl font-bold mb-6">Product Calculators</h2>
       
       <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">

@@ -112,12 +112,12 @@ const SalesAnalytics = () => {
   }, [filteredInventory]);
 
   return (
-    <div className={`max-w-7xl mx-auto p-6 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg rounded-lg`}>
-      <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Sales Analytics</h2>
-
+    <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6">
+      <h2 className="text-3xl font-bold mb-6">Sales Analytics</h2> 
+{/* className="mr-2 text-lg text-3xl font-bold mb-6" */}
       {/* Month Selector */}
       <div className="mb-6">
-        <label className={`mr-2 text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Select Month:</label>
+        <label className="mr-2 text-lg font-bold mb-6">Select Month:</label>
         <select
           value={selectedMonth || ''}
           onChange={(e) => setSelectedMonth(e.target.value || null)}
@@ -168,7 +168,7 @@ const SalesAnalytics = () => {
 
         {/* Chart Section */}
         <div className="lg:col-span-2">
-          <div className={`h-[600px] p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+          <div className={`h-[616px] p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
             <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Revenue and Profit Overview
             </h3>

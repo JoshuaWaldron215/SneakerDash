@@ -12,7 +12,7 @@ const Expenses = () => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');  // New state for selected month
+  const [selectedMonth, setSelectedMonth] = useState('');  // State for selected month
 
   const dispatch = useAppDispatch();
   const expenses = useAppSelector((state) => state.expenses.items);
@@ -57,10 +57,13 @@ const Expenses = () => {
     return selectedMonthExpenses.reduce((total, expense) => total + expense.amount, 0);
   }, [selectedMonth, expenses, expensesByMonth]);
 
+  // Calculate chart data for the selected month
   const chartData = useMemo(() => {
     const categoryData: Record<string, number> = {};
 
-    expenses.forEach((expense) => {
+    const selectedExpenses = selectedMonth ? expensesByMonth[selectedMonth] : expenses;
+
+    selectedExpenses.forEach((expense) => {
       const category = expense.description;
 
       if (!categoryData[category]) {
@@ -99,11 +102,11 @@ const Expenses = () => {
         },
       ],
     };
-  }, [expenses]);
+  }, [expenses, selectedMonth, expensesByMonth]);
 
   return (
-    <div className={`max-w-7xl mx-auto p-8 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg rounded-lg`}>
-      <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Expenses Management</h2>
+    <div className="max-w-6xl bg-white mx-auto shadow-lg rounded-lg p-6">
+      <h2 className="text-3xl font-bold mb-6 ">Expenses Management</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Expense Form Section */}
@@ -225,5 +228,6 @@ const Expenses = () => {
 };
 
 export default Expenses;
+
 
 

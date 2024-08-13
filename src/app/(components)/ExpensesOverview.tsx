@@ -61,7 +61,7 @@ const ExpensesOverview = () => {
   }, [expenses]);
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
+    <div className="bg-white shadow-md rounded-lg p-2">
       <h3 className="text-xl font-semibold mb-4"></h3>
       <Pie
         data={chartData}

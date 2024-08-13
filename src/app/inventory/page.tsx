@@ -64,8 +64,8 @@ const Inventory = () => {
   }, [groupedInventory]);
 
   return (
-    <div className={`max-w-6xl mx-auto p-6 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg rounded-lg`}>
-      <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Inventory Management</h2>
+    <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6">
+      <h2 className="text-3xl font-bold mb-6">Inventory Management</h2>
       
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -135,7 +135,7 @@ const Inventory = () => {
 
       <div className="mt-10">
         <div className="flex justify-between items-center mb-4">
-          <h3 className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Your Inventory</h3>
+          <h3 className="text-3xl font-bold mb-3">Your Inventory</h3>
           <div className="flex items-center">
             <label htmlFor="monthFilter" className={`mr-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Filter by Month:</label>
             <select
@@ -152,24 +152,38 @@ const Inventory = () => {
           </div>
         </div>
 
-        <div className="p-6 rounded-lg shadow-md max-h-[400px] overflow-y-auto bg-gray-50">
+        <div className={`p-6 rounded-lg shadow-md max-h-[400px] overflow-y-auto ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
           {filteredInventory.length > 0 ? (
             filteredInventory.map((shoe, index) => (
-              <div key={index} className={`mb-4 p-4 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
-                <div className="flex justify-between items-center">
-                  <span>
-                    <strong>{shoe.sku}</strong> - {shoe.shoeName} - Size: {shoe.size} - ${shoe.purchasePrice} - Bought on {shoe.dateBought}
-                    {shoe.dateSold && shoe.priceSold ? (
-                      <> - Sold on {shoe.dateSold} for ${shoe.priceSold}</>
-                    ) : null}
-                  </span>
-                  <button
-                    onClick={() => dispatch(deleteShoe(index))}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-                  >
-                    Delete
-                  </button>
+              <div key={index} className={`mb-4 p-4 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                  <div className="truncate">
+                    <strong>SKU:</strong> {shoe.sku}
+                  </div>
+                  <div className="truncate">
+                    <strong>Name:</strong> {shoe.shoeName}
+                  </div>
+                  <div>
+                    <strong>Size:</strong> {shoe.size}
+                  </div>
+                  <div>
+                    <strong>Price:</strong> ${shoe.purchasePrice.toFixed(2)}
+                  </div>
+                  <div>
+                    <strong>Bought:</strong> {shoe.dateBought}
+                  </div>
+                  {shoe.dateSold && shoe.priceSold && (
+                    <div>
+                      <strong>Sold On:</strong> {shoe.dateSold} for ${shoe.priceSold.toFixed(2)}
+                    </div>
+                  )}
                 </div>
+                <button
+                  onClick={() => dispatch(deleteShoe(index))}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 mt-4"
+                >
+                  Delete
+                </button>
               </div>
             ))
           ) : (

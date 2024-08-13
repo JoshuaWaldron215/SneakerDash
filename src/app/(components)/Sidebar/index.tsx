@@ -125,12 +125,7 @@ const Sidebar = () => {
           label="Calculator"
           isCollapsed={isSidebarCollapsed}
         />  
-        <SidebarLink
-          href="/setting"
-          icon={Settings}
-          label="Settings"
-          isCollapsed={isSidebarCollapsed}
-        /> 
+        
         
 
       </div>
