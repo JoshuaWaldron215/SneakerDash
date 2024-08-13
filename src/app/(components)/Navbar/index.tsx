@@ -50,7 +50,7 @@ const Navbar = () => {
 
       {/* RIGHT SIDE */}
       <div className="flex justify-between items-center gap-5">
-        <div className="hidden md:flex justify-between items-center gap-5">
+        <div className="flex justify-between items-center gap-5">
           <div>
             <button onClick={toggleDarkMode}>
               {isDarkMode ? (
@@ -64,8 +64,8 @@ const Navbar = () => {
             <Bell className="cursor-pointer text-gray-500" size={24} />
             <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full"></span>
           </div>
-          <hr className="w-0 h-7 border border-solid border-l border-gray-300 mx-3" />
-          <div className="flex items-center gap-3 cursor-pointer">
+          <hr className="w-0 h-7 border border-solid border-l border-gray-300 mx-3 hidden md:block" />
+          <div className="flex items-center gap-3 cursor-pointer hidden md:block">
             <span className="font-semibold">
               {userName ? `Welcome, ${userName}` : "Not Signed In"}
             </span>
